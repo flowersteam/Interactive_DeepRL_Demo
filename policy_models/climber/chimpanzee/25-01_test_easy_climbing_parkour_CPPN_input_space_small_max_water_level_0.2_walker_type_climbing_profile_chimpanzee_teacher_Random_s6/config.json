@@ -1,0 +1,48 @@
+{
+    "ac_kwargs":	{
+        "hidden_sizes":	[
+            400,
+            300
+        ]
+    },
+    "actor_critic":	"mlp_actor_critic",
+    "alpha":	0.005,
+    "batch_size":	1000,
+    "env_fn":	"<function EnvironmentArgsHandler.get_object_from_arguments.<locals>.<lambda> at 0x15448e2f71e0>",
+    "env_init":	{},
+    "epochs":	20,
+    "exp_name":	"25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random",
+    "gamma":	0.99,
+    "half_save":	false,
+    "logger":	{
+        "<teachDRL.students.spinup.utils.logx.EpochLogger object at 0x15451cfe8320>":	{
+            "epoch_dict":	{},
+            "exp_name":	"25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random",
+            "first_row":	true,
+            "log_current_row":	{},
+            "log_headers":	[],
+            "output_dir":	"/gpfsdswork/projects/rech/imi/ucy39hi/TeachDRLTestBed/teachDRL/students/data/25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random/25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random_s6",
+            "output_file":	{
+                "<_io.TextIOWrapper name='/gpfsdswork/projects/rech/imi/ucy39hi/TeachDRLTestBed/teachDRL/students/data/25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random/25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random_s6/progress.txt' mode='w' encoding='UTF-8'>":	{
+                    "mode":	"w"
+                }
+            }
+        }
+    },
+    "logger_kwargs":	{
+        "exp_name":	"25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random",
+        "output_dir":	"/gpfsdswork/projects/rech/imi/ucy39hi/TeachDRLTestBed/teachDRL/students/data/25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random/25-01_test_easy_climbing_parkour_CPPN_input_space_small_max_water_level_0.2_walker_type_climbing_profile_chimpanzee_teacher_Random_s6"
+    },
+    "lr":	0.001,
+    "max_ep_len":	2000,
+    "nb_test_episodes":	100,
+    "polyak":	0.995,
+    "pretrained_model":	null,
+    "replay_size":	2000000,
+    "reset_frequency":	null,
+    "save_freq":	1,
+    "seed":	6,
+    "start_steps":	10000,
+    "steps_per_epoch":	500000,
+    "train_freq":	10
+}

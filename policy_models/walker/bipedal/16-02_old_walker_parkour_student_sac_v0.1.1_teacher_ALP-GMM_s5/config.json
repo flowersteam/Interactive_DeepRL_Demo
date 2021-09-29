@@ -1,0 +1,48 @@
+{
+    "ac_kwargs":	{
+        "hidden_sizes":	[
+            400,
+            300
+        ]
+    },
+    "actor_critic":	"mlp_actor_critic",
+    "alpha":	0.005,
+    "batch_size":	1000,
+    "env_fn":	"<function EnvironmentArgsHandler.get_object_from_arguments.<locals>.<lambda> at 0x2b0a453e8f28>",
+    "env_init":	{},
+    "epochs":	20,
+    "exp_name":	"16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM",
+    "gamma":	0.99,
+    "half_save":	false,
+    "logger":	{
+        "<ACL_bench.students.spinup.utils.logx.EpochLogger object at 0x2b0a453f9588>":	{
+            "epoch_dict":	{},
+            "exp_name":	"16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM",
+            "first_row":	true,
+            "log_current_row":	{},
+            "log_headers":	[],
+            "output_dir":	"/gpfs/home/pgermon/teach_DRL_demo/ACL_bench/students/data/16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM/16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM_s5",
+            "output_file":	{
+                "<_io.TextIOWrapper name='/gpfs/home/pgermon/teach_DRL_demo/ACL_bench/students/data/16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM/16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM_s5/progress.txt' mode='w' encoding='UTF-8'>":	{
+                    "mode":	"w"
+                }
+            }
+        }
+    },
+    "logger_kwargs":	{
+        "exp_name":	"16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM",
+        "output_dir":	"/gpfs/home/pgermon/teach_DRL_demo/ACL_bench/students/data/16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM/16-02_old_walker_parkour_student_sac_v0.1.1_teacher_ALP-GMM_s5"
+    },
+    "lr":	0.001,
+    "max_ep_len":	2000,
+    "nb_test_episodes":	100,
+    "polyak":	0.995,
+    "pretrained_model":	null,
+    "replay_size":	2000000,
+    "reset_frequency":	null,
+    "save_freq":	1,
+    "seed":	5,
+    "start_steps":	10000,
+    "steps_per_epoch":	500000,
+    "train_freq":	10
+}

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-zoom=1">
+    <title>Interactive Deep Reinforcement Learning Demo</title>
+    <link rel="icon" href="images/favicon.ico" />
+
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+    <script src=//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.3.10/seedrandom.min.js></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/intro.js@4.1.0/intro.min.js"></script>
+
+    <!--SCRIPTS DEPENDENCIES-->
+    <script defer src="./js/box2d.js"></script>
+
+    <script defer src="js/Box2D_dynamics/water_dynamics.js"></script>
+    <script defer src="js/Box2D_dynamics/climbing_dynamics.js"></script>
+    <script defer src="js/Box2D_dynamics/contact_detector.js"></script>
+    <script defer src="./js/utils/custom_user_data.js"></script>
+
+    <!-- Morphologies -->
+    <script defer src="./js/bodies/bodies_enum.js"></script>
+    <script defer src="./js/bodies/abstract_body.js"></script>
+    <script defer src="js/bodies/walkers/walker_abstract_body.js"></script>
+    <script defer src="js/bodies/walkers/classic_bipedal_body.js"></script>
+    <script defer src="js/bodies/walkers/spider_body.js"></script>
+    <script defer src="js/bodies/climbers/climber_abstract_body.js"></script>
+    <script defer src="js/bodies/climbers/climbing_profile_chimpanzee.js"></script>
+    <script defer src="js/bodies/swimmers/swimmer_abstract_body.js"></script>
+    <script defer src="js/bodies/swimmers/fish_body.js"></script>
+
+    <script defer src="js/CPPN/cppn.js"></script>
+    <script defer src="js/envs/multi_agents_continuous_parkour.js"></script>
+    <script defer src="js/game.js"></script>
+    <script defer src="js/draw_p5js.js"></script>
+    <script defer src="js/i18n.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js@4.1.0/introjs.css">
+    <link rel="stylesheet" href="./demo.css">
+</head>
+
+<body>
+
+    <div class="row justify-content-between g-2">
+        <div class="col-9 col-xxl-11">
+            <h1 id="demoTitle" class="title has-text-centered my-2 align-items-center">Interactive Deep Reinforcement Learning Demo</h1>
+        </div>
+        <div class="col-auto col-xxl-1">
+            <select id="langSelect" class="form-select">
+                <option value="EN">🇬🇧 English</option>
+                <option value="FR">🇫🇷 Français</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="row justify-content-md-left g-2">
+            <div class="col-12 col-md-9 " id="canvas-and-main-buttons">
+
+                <!-- Canvas -->
+                <div id="canvas_container"></div>
+
+                <!-- Main buttons row -->
+                <div id="mainButtons" class="row justify-content-center">
+                    <div class="col-auto py-2 px-1">
+                        <button id="runButton" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Run the simulation"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="col-auto py-2 px-1">
+                        <button id="resetButton" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reset the simulation"><i class="fas fa-undo-alt fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-auto py-2 px-1">
+                        <span data-toggle="modal" data-target="#saveEnvModal">
+                            <button id="saveEnvButton" class="btn btn-primary mx-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Save the current environment">
+                                <i class="far fa-save fa-lg"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List of running agents -->
+            <div id="agents_list_container" class="col-12 col-md border border-secondary rounded">
+                <h1 class="has-text-centered my-2" id="agents_list_title"><strong> List of running agents </strong></h1>
+                <ol class="list-group" id="agents_list"></ol>
+            </div>
+        </div>
+
+        <!-- Dialog box for saving current environment -->
+        <div class="modal fade" id="saveEnvModal" tabindex="-1" role="dialog" aria-labelledby="saveEnvModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="save-modal-title"><strong>Please enter a name and a description for the current environment</strong>.</h1>
+                        <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="save-modal-text" class="modal-text">This environment will be saved in your collection of custom environments so that you could reload it later or download it to share it.</p>
+                        <form>
+                            <div class="form-group">
+                                <label id="env-name-label" for="env-name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control text-field" id="env-name">
+                            </div>
+                            <div class="form-group">
+                                <label id="env-description-label" for="env-description" class="col-form-label">Description:</label>
+                                <textarea class="form-control text-field" id="env-description"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="save-cancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button id="save-confirm-btn" type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-10">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs bg-light nav-fill" id="tabs-buttons" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="getting-started-btn" data-bs-toggle="tab"
+                            data-bs-target="#getting-started-tab" type="button" role="tab" aria-controls="getting-started-tab"
+                            aria-selected="true"><strong>Getting Started</strong></button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="parkour-custom-btn" data-bs-toggle="tab"
+                                data-bs-target="#parkour-custom-tab" type="button" role="tab" aria-controls="parkour-custom-tab">
+                                <strong>Parkour Customization</strong>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="advanced-options-btn" data-bs-toggle="tab" data-bs-target="#advanced-options-tab"
+                                type="button" role="tab" aria-controls="advanced-options-tab" aria-selected="false">
+                            <strong>Advanced Options</strong>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="about-btn" data-bs-toggle="tab" data-bs-target="#about-tab"
+                                type="button" role="tab" aria-controls="about-tab" aria-selected="false">
+                            <i class="fas fa-info-circle fa-lg"></i> <strong>About...</strong>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <!-- Getting Started tab pane -->
+                    <div class="tab-pane active" id="getting-started-tab" role="tabpanel" aria-labelledby="getting-started-btn">
+
+                        <p id="baseSetText" class="mt-3 has-text-centered">To begin you can select one of the following environments to load it into the simulation.</p>
+
+                        <div id="baseEnvsSet" class="row row-cols-2 row-cols-md-4 my-3">
+
+                        </div>
+
+                        <hr class="solid">
+                        <div id="customSetSection">
+                            <p id="customSetText" class="has-text-centered">In this section you can store your own custom environments by saving them thanks to the <span style="color: blue"><i
+                                    class="far fa-save fa-lg"></i></span> button above or by uploading them from a JSON file.</p>
+
+                            <div id="customEnvsSet" class="row row-cols-2 row-cols-md-4 my-3">
+                        </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <!-- Parkour Customization tab pane -->
+                    <div class="tab-pane" id="parkour-custom-tab" role="tab-panel" aria-labelledby="parkour-custom-btn">
+
+                        <div class="row justify-content-center">
+                            <div class="col-2"></div>
+                            <div class="col">
+                                <h1 id="terrain-generation-title" class="has-text-centered mt-2"><strong> Terrain Generation </strong></h1>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-2">
+                                <div class="nav flex-column nav-pills" id="parkour-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <button class="nav-link active my-2 border border-primary" id="draw-tab-btn" data-bs-toggle="pill" data-bs-target="#draw-tab"
+                                            type="button" role="tab" aria-controls="draw-tab" aria-selected="true"> Draw Yourself! </button>
+
+                                    <hr class="solid">
+
+                                    <button class="nav-link my-2 border border-primary" id="proc-gen-tab-btn" data-bs-toggle="pill" data-bs-target="#proc-gen-tab"
+                                            type="button" role="tab" aria-controls="proc-gen-tab" aria-selected="false"> Procedural Generation </button>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="tab-content" id="parkour-vpills-tabcontent">
+                                    <div class="tab-pane fade show active" id="draw-tab" role="tabpanel" aria-labelledby="draw-tab-btn">
+                                        <!-- Draw Yourself! tab pane -->
+                                        <div class="mx-4 mt-2">
+                                            <p id="drawingIntro" class="has-text-centered">
+                                                Here you can draw your own parkour!
+                                            </p>
+                                            <div id="drawingMode" class="row justify-content-md-center g-2 my-2">
+                                                <div class="col-auto">
+                                                    <button id="drawGroundButton" class="btn btn-outline-success disabled"><i class="fas fa-pencil-alt"></i> Ground </button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button id="drawCeilingButton" class="btn btn-outline-secondary disabled"><i class="fas fa-pencil-alt"></i> Ceiling </button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button id="eraseButton" class="btn btn-outline-warning disabled"><i class="fas fa-eraser"></i>
+                                                        Erase </button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button id="clearButton" class="btn btn-danger"><i class="fas fa-times"></i> Clear </button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button id="generateTerrainButton" class="btn btn-success disabled"> Generate Terrain </button>
+                                                </div>
+                                            </div>
+
+                                            <p id="drawingText" class="has-text-centered my-2">
+                                                Select the <strong style="color: green"><i class="fas fa-pencil-alt"></i> Ground</strong> or <strong style="color: dimgrey"><i class="fas fa-pencil-alt"></i> Ceiling</strong> button to start drawing the corresponding terrain shape with the mouse.<br>
+                                                Be careful not to draw more than one line at different heights if you want the result to be optimal.
+                                                You can use the <strong style="color: #FFC700"><i class="fas fa-eraser"></i> Erase</strong> button if you need to correct your drawing or the <strong style="color: red"><i class="fas fa-times"></i> Clear</strong> one to clear all your drawing.<br>
+                                                When you are satisfied with the result, just click the <strong style="color: green">Generate Terrain</strong> button.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="proc-gen-tab" role="tabpanel" aria-labelledby="proc-gen-tab-btn">
+                                        <!-- Procedural Generation  tab pane-->
+                                        <div class="my-2 mx-1">
+                                            <p id="proc-gen-text" class="has-text-centered">
+                                                You can also use these three sliders to generate the <strong>terrain shapes</strong> automatically.
+                                            </p>
+                                        </div>
+
+                                        <div class="row justify-content-center mx-1 my-3">
+                                            <div class="row">
+                                                <div class="col-11">
+                                                    <input type="range" class="form-range" min="-1" max="1" step="0.01" id="dim1Slider">
+                                                </div>
+                                                <div class="col">
+                                                    <span id="dim1Value"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-11">
+                                                    <input type="range" class="form-range" min="-1" max="1" step="0.01" id="dim2Slider">
+                                                </div>
+                                                <div class="col">
+                                                    <span id="dim2Value"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-11">
+                                                    <input type="range" class="form-range" min="-1" max="1" step="0.01" id="dim3Slider">
+                                                </div>
+                                                <div class="col">
+                                                    <span id="dim3Value"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="solid">
+
+                        <div class="row justify-content-center mb-3">
+
+                            <!-- Smoothing + Water level sliders -->
+                            <div class="col-6 border border-top-0 border-start-0 border-bottom-0">
+                                <div class="row justify-content-center mb-4">
+                                    <strong id="general-parameters-title" class="has-text-centered">General parameters</strong>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                        <label id="smoothing-label" for="smoothingSlider" class="form-label">Smoothing</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="range" class="form-range" min="10" max="40" value="20" step="0.01"
+                                               id="smoothingSlider">
+                                    </div>
+                                    <div class="col-1 p-0">
+                                        <span id="smoothingValue"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+
+                                    <div class="col-auto">
+                                        <label id="water-level-label" for="waterSlider" class="form-label">Water level</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="range" class="form-range" min="0" max="1" step="0.01" value="0"
+                                               id="waterSlider">
+                                    </div>
+                                    <div class="col-1 p-0">
+                                        <span id="waterValue"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Creepers parameters -->
+                            <div class="col">
+                                <div class="row justify-content-center align-items-center mb-2">
+                                    <div class="col-auto">
+                                        <strong id="creepers-title" class="has-text-centered">Creepers</strong>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <select id="creepersType" class="form-select">
+                                            <option id="rigid-otpion" value="Rigid">Rigid</option>
+                                            <option id="swingable-option" value="Swingable">Swingable</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                        <label id="creepers-width-label" for="creepersWidthSlider" class="form-label">Width</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="range" class="form-range" min="0.2" max="0.7" value="0.3" step="0.01"
+                                               id="creepersWidthSlider">
+                                    </div>
+                                    <div class="col-auto">
+                                        <span id="creepersWidthValue"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                        <label id="creepers-height-label" for="creepersHeightSlider" class="form-label">Height</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="range" class="form-range" min="0.2" max="5" value="3" step="0.01"
+                                               id="creepersHeightSlider">
+                                    </div>
+                                    <div class="col-auto">
+                                        <span id="creepersHeightValue"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center ">
+                                    <div class="col-auto">
+                                        <label id="creepers-spacing-label" for="creepersSpacingSlider" class="form-label">Spacing</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="range" class="form-range" min="0.6" max="5" value="1" step="0.01"
+                                               id="creepersSpacingSlider">
+                                    </div>
+                                    <div class="col-auto">
+                                        <span id="creepersSpacingValue"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Options tab pane -->
+                    <div class="tab-pane" id="advanced-options-tab" role="tabpanel" aria-labelledby="advanced-options-btn">
+                        <!-- Draw joins/sensors/names selectors -->
+                        <div id="advancedOptions" class="row mt-3">
+
+                            <div class="col-3 border border-start-0 border-top-0 border-bottom-0">
+                                <h1 id="renderingOptionsTitle" class="has-text-centered my-2"><strong> Rendering Options </strong></h1>
+                                <div id="drawSelectors" class="mx-5 my-2">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="drawJointsSwitch" data-bs-toggle="tooltip" title="Draw joints">
+                                        <label id="drawJointsLabel" class="form-check-label" for="drawJointsSwitch">Draw joints</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="drawLidarsSwitch" data-bs-toggle="tooltip" title="Draw lidars">
+                                        <label id="drawLidarsLabel" class="form-check-label" for="drawLidarsSwitch">Draw lidars</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="drawNamesSwitch" data-bs-toggle="tooltip" title="Draw names">
+                                        <label id="drawNamesLabel" class="form-check-label" for="drawNamesSwitch">Draw names</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="drawObservationSwitch" data-bs-toggle="tooltip" title="Draw observation">
+                                        <label id="drawObservationLabel" class="form-check-label" for="drawObservationSwitch">Draw observations</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="drawRewardSwitch" data-bs-toggle="tooltip" title="Draw rewards">
+                                        <label id="drawRewardLabel" class="form-check-label" for="drawRewardSwitch">Draw rewards</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-4 border border-start-0 border-top-0 border-bottom-0">
+                                <h1 class="has-text-centered my-2"><strong> Performance Options </strong></h1>
+                            </div>-->
+
+                            <div class="col">
+                                <div class="has-text-centered">
+                                    <h1 id="assetsTitle" class="my-2"><strong> Assets </strong></h1>
+                                    <p id="assetsText" class="mb-2">Here you can find several types of assets, which are objects that you can add to the simulation using the mouse.</p>
+                                </div>
+
+                                <button id="circleAssetButton" class="btn btn-outline-asset mx-3"><i class="fas fa-circle"></i> Circle </button>
+                                <span id="comingSoon" class="mx-3">More assets coming soon...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About... tab pane -->
+                    <div class="tab-pane" id="about-tab" role="tabpanel" aria-labelledby="about-btn">
+                        <div class="about-text px-5 my-5">
+
+                            <h2 id="purpose-title" class="about-subsection mb-4">Purpose of the demo</h2>
+
+                            <div id="purpose-text" class="mb-4">
+                                <p class="mb-2">
+                                    The goal of this demo is to showcase the challenge of <strong>generalization</strong> to unknown tasks
+                                    for <strong>Deep Reinforcement Learning (DRL)</strong> agents.
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>DRL</strong> is a <strong>machine learning</strong> approach for teaching <strong>virtual agents</strong>
+                                    how to solve tasks by combining <strong>Reinforcement Learning</strong> and <strong>Deep Learning</strong> methods.
+                                    This approach has been used for a diverse set of applications including robotics (e.g. <a href="https://openai.com/blog/solving-rubiks-cube/">Solving Rubik's Cube</a>),
+                                    video games and boardgames (e.g. <a href="https://deepmind.com/research/case-studies/alphago-the-story-so-far">AlphaGo</a>).
+                                </p>
+
+                                <p class="mb-2">
+                                    In this demo, all the agents have been <strong>autonomously trained</strong> to learn an efficient behaviour to navigate through a 2D environment,
+                                    combining different methods so that they can be able to <strong>generalize their behaviour to never-seen-before situations</strong>.
+                                </p>
+
+                                <p>
+                                    The demo provides different tools to customize the environment in order to test and challenge the
+                                    <strong>robustness</strong> of the agents on different situations.
+                                </p>
+                            </div>
+
+
+                            <h2 id="rl-title" class="about-subsection mb-4">Reinforcement Learning</h2>
+
+                            <div id="rl-text" class="mb-4">
+                                <p>
+                                    <strong>Reinforcement Learning (RL)</strong> is the study of agents and how they learn by <strong>trial and error</strong>.
+                                    The main idea is to <strong>reward or punish</strong> an agent according to the actions it takes in order to teach it an efficient behavior to reach an objective.
+                                    <br>
+                                    The RL approaches generally feature an <strong>agent</strong> which evolves and interacts with a <strong>world</strong>.
+                                    At each interaction step, the agent sees a partial <strong>observation</strong> of the current state of the environment and decides of an action to take.
+                                    Each action taken by the agent changes the state of the world.
+                                    The agent also receives a <strong>reward</strong> signal at each step, that indicates how good or bad the current state is
+                                    according to the objective the agent has to reach.
+                                </p>
+
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-12 col-md-6">
+                                        <p>
+                                            The diagram on the right presents this interaction process between the <strong>agent</strong> and the <strong>environment</strong>,
+                                            with the different information they exchange at each step.
+                                            <br>
+                                            <strong>Maximizing the reward</strong> over steps is a way for the agent to learn a behaviour, also called <strong>policy</strong>,
+                                            to achieve its objective.
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <img id="rl-diagram" class="w-100" src="images/about/rl_diagram_transparent_bg.png" alt="RL diagram">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2 id="drl-title" class="about-subsection mb-4">Deep RL</h2>
+
+                            <div id="drl-text" class="mb-4">
+                                <p class="mb-2">
+                                    In order to remember and improve the actions taken by the agent, DRL algorithms utilizes <strong>artificial neural networks</strong>.
+                                    With <strong>training</strong>, these neural networks are able to <strong>learn to predict an optimal action to take at each step from the observation received</strong>,
+                                    and relying on all the observations and rewards previously received after each action during training.
+                                    Thanks to this, DRL algorithms are able to produce behaviours that are very effective in situations similar to those they were trained on.
+                                </p>
+
+                                <div class="row justify-content-center my-4">
+                                    <img id="rl-demo_diagram" class="w-50" src="images/about/rl_demo_diagram_EN.png" alt="RL demo diagram">
+                                </div>
+
+                                <p>
+                                    However, in real-world applications, the environment rarely remains still and frequently evolves. Therefore one would
+                                    want DRL agents to be able to <strong>generalize their behaviour</strong> to previously unseen changes of the environment so that
+                                    they can <strong>adapt to a large range of situations</strong>.
+                                </p>
+                            </div>
+
+                            <h2 id="acl-title" class="about-subsection mb-4">Automatic Curriculum Learning</h2>
+
+                            <div id="acl-text" class="mb-4">
+                                <p class="mb-2">
+                                    One solution to handle this challenge is to train DRL agents on <strong>procedurally generated environments</strong>.
+                                    <br>
+                                    <strong>Procedural generation</strong> is a method of automatically creating environments according to some parameters.
+                                    Using this method, DRL agents can be trained on a <strong>very wide range of environments</strong>, hence allowing them
+                                    to <strong>generalize their behaviour</strong> to more different situations.
+                                </p>
+
+                                <p>
+                                    However, randomly generating environments during training implies the risk to generate environments that are too difficult or too easy to resolve
+                                    for the agents, preventing them to continuously learn in an efficient way.
+                                    <br>
+                                    Therefore, one would need <strong>smarter training strategies</strong> that propose relevant environments tailored to the current <strong>learning progress</strong> of the <strong>student</strong> (DRL agent).
+                                    This method is called <strong>Automatic Curriculum Learning (ACL)</strong> and is embodied by a <strong>teacher algorithm</strong> which is trained to learn to generate
+                                    the most relevant environments throughout the entire training process according to the student performances.
+                                    <br>
+                                    This way, the teacher proposes easy environments to the student at the beginning and <strong>gradually increases the difficulty
+                                    and the diversity</strong> of the tasks in order to guarantee that the <strong>student is progressing while not always facing the same situation or forgetting what it has already learned</strong>.
+                                </p>
+                            </div>
+
+                            <h2 id="about-demo-title" class="about-subsection mb-4">About the demo</h2>
+
+                            <div id="about-demo-text" class="mb-4">
+                                <p class="mb-2">
+                                    In this demo, all the available agents were trained using <a href="https://spinningup.openai.com/en/latest/algorithms/sac.html">Soft Actor Critic</a>
+                                    as the <strong>DRL student algorithm</strong> alongside different <strong>ACL teacher algorithms</strong> such as <a href="https://arxiv.org/abs/1910.07224">ALP-GMM</a>.
+                                    <br>
+                                    They successfully learned efficient behaviours to move through the environment and to <strong>generalize</strong> to never-seen-before situations.
+                                </p>
+
+                                <p>
+                                    The physics of the simulation are supported by <a href="https://github.com/kripken/box2d.js">box2d.js</a>
+                                    which is a direct port of the <a href="https://github.com/erincatto/box2d">Box2D</a> physics engine to JavaScript.
+                                    <br>
+                                    The <strong>pre-trained policies</strong> (agents behaviours) are loaded in the browser thanks to <a href="https://www.tensorflow.org/js">TensorFlow.js</a>.
+                                </p>
+                            </div>
+
+                            <h2 id="credits-title" class="about-subsection mb-4">Credits</h2>
+
+                            <div id="credits-text" class="mb-4">
+                                <p class="mb-4">
+                                    This demo was designed by <a href="https://github.com/pgermon">Paul Germon</a> as part of an internship within <a href="https://flowers.inria.fr/">Flowers</a>
+                                    research team at <a href="https://www.inria.fr/fr">Inria</a>. This internship was monitored by Rémy Portelas and Clément Romac,
+                                    and supervised by Pierre-Yves Oudeyer. Special thanks to Nikita Melkozerov for its very helpful contribution.
+                                </p>
+
+                                <ul class="px-3" style="list-style-type: disc">
+                                    <li>The code of this demo is open-source and can be found on this <a href="https://github.com/pgermon/teach_DRL_demo">github repository.</a></li>
+                                    <li>The code of the environment and agents is adapted from the <a href="http://developmentalsystems.org/TeachMyAgent/">TeachMyAgent</a> benchmark's Python code to JavaScript.</li>
+                                </ul>
+                            </div>
+
+                            <h2 id="references-title" class="about-subsection mb-4">References</h2>
+
+                            <div id="references-text">
+                                <ul class="mb-4">
+                                    <li id="ref1">[1] OpenAI, Ilge Akkaya, Marcin Andrychowicz, Maciek Chociej, Mateusz Litwin, Bob McGrew, Arthur Petron, Alex Paino, Matthias Plappert, Glenn Powell, Raphael Ribas, Jonas Schneider, Nikolas Tezak, Jerry Tworek, Peter Welinder, Lilian Weng, Qiming Yuan, Wojciech Zaremba, Lei Zhang:
+                                        Solving Rubik's Cube with a Robot Hand (2019). <a href="https://arxiv.org/abs/1910.07113">https://arxiv.org/abs/1910.07113</a></li>
+                                    <li id="ref2">[2] Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). <a href="https://doi.org/10.1038/nature16961">https://doi.org/10.1038/nature16961</a></li>
+                                    <li id="ref3">[3] Portelas, R., Colas, C., Weng, L., Hofmann, K., & Oudeyer, P. Y. (2020). Automatic curriculum learning for deep rl: A short survey (2020). <a href="https://arxiv.org/abs/2003.04664">https://arxiv.org/abs/2003.04664</a></li>
+                                    <li id="ref4">[4] Haarnoja, T., Zhou, A., Abbeel, P., & Levine, S. (2018, July). Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor. <em>In International conference on machine learning</em> (pp. 1861-1870). PMLR <a href="https://arxiv.org/abs/1801.01290">https://arxiv.org/abs/1801.01290</a></li>
+                                    <li id="ref5">[5] Portelas, R., Colas, C., Hofmann, K., & Oudeyer, P. Y. (2020, May). Teacher algorithms for curriculum learning of deep rl in continuously parameterized environments. <em>In Conference on Robot Learning</em> (pp. 835-853). PMLR. <a href="https://arxiv.org/abs/1910.07224">https://arxiv.org/abs/1910.07224</a></li>
+                                    <li id="ref6">[6] Romac, C., Portelas, R., Hofmann, K., & Oudeyer, P. Y. (2021). TeachMyAgent: a Benchmark for Automatic Curriculum Learning in Deep RL. <a href="https://arxiv.org/abs/2103.09815">https://arxiv.org/abs/2103.09815</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="agents-selection" class="col mx-1 mb-2 px-2 border border-top-0 border-end-0 border-bottom-0">
+                <!-- select the morphology -->
+                <h1 id="agents-selection-title" class="has-text-centered my-2"> <strong> Add an agent</strong>  </h1>
+                <p id="agents-selection-text" class="has-text-centered my-2"> Here you can add an agent to the simulation with the morphology of your choice.</p>
+                <ul class="list-group" id="morphologies-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="./index.js"></script>
+    <script type="module" src="./ui.js"></script>
+
+</body>
+
+</html>

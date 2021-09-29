@@ -1,0 +1,48 @@
+{
+    "ac_kwargs":	{
+        "hidden_sizes":	[
+            400,
+            300
+        ]
+    },
+    "actor_critic":	"mlp_actor_critic",
+    "alpha":	0.005,
+    "batch_size":	1000,
+    "env_fn":	"<function EnvironmentArgsHandler.get_object_from_arguments.<locals>.<lambda> at 0x1462098ebd08>",
+    "env_init":	{},
+    "epochs":	40,
+    "exp_name":	"22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal",
+    "gamma":	0.99,
+    "half_save":	false,
+    "logger":	{
+        "<ACL_bench.students.spinup.utils.logx.EpochLogger object at 0x1462098f9b70>":	{
+            "epoch_dict":	{},
+            "exp_name":	"22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal",
+            "first_row":	true,
+            "log_current_row":	{},
+            "log_headers":	[],
+            "output_dir":	"/gpfsdswork/projects/rech/imi/ucy39hi/TeachDRLTestBed/ACL_bench/students/data/22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal/22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal_s11",
+            "output_file":	{
+                "<_io.TextIOWrapper name='/gpfsdswork/projects/rech/imi/ucy39hi/TeachDRLTestBed/ACL_bench/students/data/22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal/22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal_s11/progress.txt' mode='w' encoding='UTF-8'>":	{
+                    "mode":	"w"
+                }
+            }
+        }
+    },
+    "logger_kwargs":	{
+        "exp_name":	"22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal",
+        "output_dir":	"/gpfsdswork/projects/rech/imi/ucy39hi/TeachDRLTestBed/ACL_bench/students/data/22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal/22-07_benchmark_parkour_ALP-GMM_walker_type_old_classic_bipedal_s11"
+    },
+    "lr":	0.001,
+    "max_ep_len":	2000,
+    "nb_test_episodes":	100,
+    "polyak":	0.995,
+    "pretrained_model":	null,
+    "replay_size":	2000000,
+    "reset_frequency":	null,
+    "save_freq":	1,
+    "seed":	11,
+    "start_steps":	10000,
+    "steps_per_epoch":	500000,
+    "train_freq":	10
+}

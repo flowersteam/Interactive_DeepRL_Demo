@@ -1,0 +1,94 @@
+.ib{
+    display: inline-block;
+    margin-right: 30px;
+}
+
+#creepers{
+    position: relative;
+    bottom: 25px;
+}
+
+.btn-asset{
+    background-color: #885C00;
+    color: white;
+}
+
+btn-asset:hover{
+    background-color: #885C00;
+    color: white;
+}
+
+.btn-outline-asset{
+    background-color: white;
+    color: #885C00;
+    border-color: #885C00;
+}
+
+.btn-outline-asset:hover{
+    background-color: #885C00;
+    color: white;
+}
+
+#agents_list_container{
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.list-group-item{
+    border-color: white;
+}
+
+.list-group-item.active{
+    background-color: #FFC700;
+    border-color: #FFC700;
+}
+
+.list-group-item.disabled{
+    background-color: lightgrey;
+    border-color: lightgrey;
+}
+
+hr.solid {
+    border-top: 2px solid #999;
+}
+
+.card > img{
+    height: 125px;
+    object-fit: cover;
+    object-position: 5% 0%;
+}
+
+.introjs-tooltip {
+    font-size: 20px;
+    min-width: 400px;
+    max-width: 600px;
+}
+
+.introjs-tooltip-title {
+    font-size: 22px;
+    color: #0a41c9;
+}
+
+.introjs-hintReference > .introjs-tooltip{
+    font-size: 16px;
+}
+
+.introjs-tooltip ul {
+    margin-left: 8px;
+    list-style-type: disc;
+}
+
+.nav-link {
+    color: black;
+    font-weight: bold;
+}
+
+.about-text {
+    font-size: 18px;
+}
+
+.about-subsection {
+    font-size: 26px;
+    font-weight: bold;
+    color: #0a41c9;
+}
