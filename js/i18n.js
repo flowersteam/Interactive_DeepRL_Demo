@@ -144,7 +144,7 @@ window.lang_dict = {
         },
 
         'globalElements': {
-            'demoTitle': "Deep Reinforcement Learning Interactive Demo",
+            'demoTitle': "Interactive Deep Reinforcement Learning Demo",
             'gettingStarted': "Getting Started",
             'parkourCustomization': "Parkour Customization",
             'advancedOptions': "Advanced Options",
