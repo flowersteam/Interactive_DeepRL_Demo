@@ -50,7 +50,7 @@ pip install tensorflowjs
 **3. Set it up**   
     3.1. Convert all policy models in [`policy_models`] to a web-friendly format in `web_demo/policy_models`    
 ```
-ls -d policy_models/*/*/*/ | xargs -I"{}" tensorflowjs_converter --input_format=tf_saved_model [--output_node_names='parkour_walker'] --saved_model_tags=serve --skip_op_check {}tf1_save web_demo/{}
+ls -d policy_models/*/*/*/ | xargs -I"{}" tensorflowjs_converter --input_format=tf_saved_model --output_node_names='parkour_walker' --saved_model_tags=serve --skip_op_check {}tf1_save web_demo/{}
 ```  
    3.2. Generate the list of policy models
 ```
