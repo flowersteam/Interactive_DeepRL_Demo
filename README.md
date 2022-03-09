@@ -92,3 +92,16 @@ pushd web_demo/; python3 -m http.server 9999; popd;
 [`list_base_envs.py`]: list_base_envs.py
 [`policies_to_json.py`]: policies_to_json.py
 [`i18n.js`]: web_demo/js/i18n.js
+
+## Citation
+
+If you use our demo in your work, use the following citation:
+
+```bibtex
+@misc{germon2021demo,  
+  title={Interactive Deep Reinforcement Learning Demo},  
+  author={Germon, Paul and Romac, Clément and Portelas, Rémy and Pierre-Yves, Oudeyer},  
+  url={https://developmentalsystems.org/Interactive_DeepRL_Demo/},  
+  year={2021}
+}
+```
