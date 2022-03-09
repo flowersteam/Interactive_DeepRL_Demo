@@ -268,7 +268,7 @@ window.lang_dict = {
                             </p>
 
                             <ul class="px-3" style="list-style-type: disc">
-                                <li>The code of this demo is open-source and can be found on this <a href="https://github.com/pgermon/teach_DRL_demo">github repository.</a></li>
+                                <li>The code of this demo is open-source and can be found on this <a href="https://github.com/flowersteam/Interactive_DeepRL_Demo">github repository.</a></li>
                                 <li>The code of the environment and agents is adapted from the <a href="http://developmentalsystems.org/TeachMyAgent/">TeachMyAgent</a> <a href="#ref6">[6]</a> benchmark's Python code to JavaScript.</li>
                             </ul>`,
             'referencesTitle': "References",
@@ -562,7 +562,7 @@ window.lang_dict = {
                             </p>
 
                             <ul class="px-3" style="list-style-type: disc">
-                                <li>Le code source de cette démo est libre d'accès sur ce <a href="https://github.com/pgermon/teach_DRL_demo">dépôt github.</a></li>
+                                <li>Le code source de cette démo est libre d'accès sur ce <a href="https://github.com/flowersteam/Interactive_DeepRL_Demo">dépôt github.</a></li>
                                 <li>Le code de l'environnement et des agents a été adapté en JavaScript à partir du code Python de <a href="http://developmentalsystems.org/TeachMyAgent/">TeachMyAgent</a> <a href="#ref6">[6]</a>.</li>
                             </ul>`,
             'referencesTitle': "Références",

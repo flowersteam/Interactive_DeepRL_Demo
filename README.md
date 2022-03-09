@@ -7,7 +7,7 @@ Learning agents, including their ability to generalize to unknown tasks. The dem
 
 The repository is organized as follows:
 
-📦 teach_DRL_demo  
+📦 Interactive_DeepRL_Demo  
 ┣ 📂 [`policy_models`] -- *policies available for each morphology in the TF SavedModel format*       
 ┣ 📂 [`web_demo`] -- *web app main folder*    
 ┃ ┣ 📂 [`base_envs_set`] -- *set of basic environments in JSON files*  
@@ -36,8 +36,8 @@ Follow these steps if you want to launch the demo locally.
 
 **1. Get the repository**
 ```
-git clone https://github.com/pgermon/teach_DRL_demo.git
-cd teach_DRL_demo/
+git clone https://github.com/flowersteam/Interactive_DeepRL_Demo.git
+cd Interactive_DeepRL_Demo/
 ```
 
 **2. Install it, using Conda for example (use Python >= 3.6)**
