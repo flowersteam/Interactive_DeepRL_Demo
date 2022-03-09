@@ -265,6 +265,15 @@ window.lang_dict = {
                                 This demo was designed by <a href="https://github.com/pgermon">Paul Germon</a> as part of an internship within <a href="https://flowers.inria.fr/">Flowers</a>
                                 research team at <a href="https://www.inria.fr/fr">Inria</a>. This internship was monitored by Rémy Portelas and Clément Romac,
                                 and supervised by Pierre-Yves Oudeyer. Special thanks to Nikita Melkozerov for its very helpful contribution.
+                                Recommended citation format:
+                                <a name="germon2021demo"></a><pre>
+                                @misc{germon2021demo,
+                                  title={Interactive Deep Reinforcement Learning Demo},
+                                  author={Germon, Paul and Romac, Clément and Portelas, Rémy and Pierre-Yves, Oudeyer},
+                                  url={https://developmentalsystems.org/Interactive_DeepRL_Demo/},
+                                  year={2021}
+                                }
+                                </pre>
                             </p>
 
                             <ul class="px-3" style="list-style-type: disc">
@@ -559,6 +568,15 @@ window.lang_dict = {
                                 l'équipe de recherche <a href="https://flowers.inria.fr/">Flowers</a> au laboratoire <a href="https://www.inria.fr/fr">Inria</a>. 
                                 Ce stage était encadré par Rémy Portelas et Clément Romac, et supervisé par Pierre-Yves Oudeyer. 
                                 Remerciements particuliers à Nikita Melkozerov pour sa contribution.
+                                Citation recommandée:
+                                <a name="germon2021demo"></a><pre>
+                                @misc{germon2021demo,
+                                  title={Interactive Deep Reinforcement Learning Demo},
+                                  author={Germon, Paul and Romac, Clément and Portelas, Rémy and Pierre-Yves, Oudeyer},
+                                  url={https://developmentalsystems.org/Interactive_DeepRL_Demo/},
+                                  year={2021}
+                                }
+                                </pre>
                             </p>
 
                             <ul class="px-3" style="list-style-type: disc">
