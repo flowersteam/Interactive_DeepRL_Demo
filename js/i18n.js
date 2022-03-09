@@ -265,10 +265,19 @@ window.lang_dict = {
                                 This demo was designed by <a href="https://github.com/pgermon">Paul Germon</a> as part of an internship within <a href="https://flowers.inria.fr/">Flowers</a>
                                 research team at <a href="https://www.inria.fr/fr">Inria</a>. This internship was monitored by Rémy Portelas and Clément Romac,
                                 and supervised by Pierre-Yves Oudeyer. Special thanks to Nikita Melkozerov for its very helpful contribution.
+                                Recommended citation format:
+                                <a name="germon2021demo"></a><pre>
+                                @misc{germon2021demo,
+                                  title={Interactive Deep Reinforcement Learning Demo},
+                                  author={Germon, Paul and Romac, Clément and Portelas, Rémy and Pierre-Yves, Oudeyer},
+                                  url={https://developmentalsystems.org/Interactive_DeepRL_Demo/},
+                                  year={2021}
+                                }
+                                </pre>
                             </p>
 
                             <ul class="px-3" style="list-style-type: disc">
-                                <li>The code of this demo is open-source and can be found on this <a href="https://github.com/pgermon/teach_DRL_demo">github repository.</a></li>
+                                <li>The code of this demo is open-source and can be found on this <a href="https://github.com/flowersteam/Interactive_DeepRL_Demo">github repository.</a></li>
                                 <li>The code of the environment and agents is adapted from the <a href="http://developmentalsystems.org/TeachMyAgent/">TeachMyAgent</a> <a href="#ref6">[6]</a> benchmark's Python code to JavaScript.</li>
                             </ul>`,
             'referencesTitle': "References",
@@ -559,10 +568,19 @@ window.lang_dict = {
                                 l'équipe de recherche <a href="https://flowers.inria.fr/">Flowers</a> au laboratoire <a href="https://www.inria.fr/fr">Inria</a>. 
                                 Ce stage était encadré par Rémy Portelas et Clément Romac, et supervisé par Pierre-Yves Oudeyer. 
                                 Remerciements particuliers à Nikita Melkozerov pour sa contribution.
+                                Citation recommandée:
+                                <a name="germon2021demo"></a><pre>
+                                @misc{germon2021demo,
+                                  title={Interactive Deep Reinforcement Learning Demo},
+                                  author={Germon, Paul and Romac, Clément and Portelas, Rémy and Pierre-Yves, Oudeyer},
+                                  url={https://developmentalsystems.org/Interactive_DeepRL_Demo/},
+                                  year={2021}
+                                }
+                                </pre>
                             </p>
 
                             <ul class="px-3" style="list-style-type: disc">
-                                <li>Le code source de cette démo est libre d'accès sur ce <a href="https://github.com/pgermon/teach_DRL_demo">dépôt github.</a></li>
+                                <li>Le code source de cette démo est libre d'accès sur ce <a href="https://github.com/flowersteam/Interactive_DeepRL_Demo">dépôt github.</a></li>
                                 <li>Le code de l'environnement et des agents a été adapté en JavaScript à partir du code Python de <a href="http://developmentalsystems.org/TeachMyAgent/">TeachMyAgent</a> <a href="#ref6">[6]</a>.</li>
                             </ul>`,
             'referencesTitle': "Références",
