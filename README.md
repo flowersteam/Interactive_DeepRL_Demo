@@ -95,8 +95,13 @@ pushd web_demo/; python3 -m http.server 9999; popd;
 
 ## Citation
 
+If you use our demo in your work, use the following citation:
+
+```bibtex
 @misc{germon2021demo,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   title={Interactive Deep Reinforcement Learning Demo},  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   author={Germon, Paul and Romac, Clément and Portelas, Rémy and Pierre-Yves, Oudeyer},  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   url={https://developmentalsystems.org/Interactive_DeepRL_Demo/},  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   year={2021}}
+  title={Interactive Deep Reinforcement Learning Demo},  
+  author={Germon, Paul and Romac, Clément and Portelas, Rémy and Pierre-Yves, Oudeyer},  
+  url={https://developmentalsystems.org/Interactive_DeepRL_Demo/},  
+  year={2021}
+}
+```
